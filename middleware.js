@@ -9,7 +9,7 @@ export const config = {
 export function middleware(request) {
   const cookies = request.cookies
 
-  const authToken = cookies.get('username')
+  const authToken = cookies.get('token')
 
   if (!authToken) {
     return NextResponse.redirect(new URL('/auth', request.url))

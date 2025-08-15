@@ -1,3 +1,5 @@
 export { getRandomFish } from './getRandomFish'
 export { getRandomObject } from './getRandomObject'
 export { getRandomWeight } from './getRandomWeight'
+export { parseCookie } from './parseCookie'
+export { verifyToken } from './verifyToken'

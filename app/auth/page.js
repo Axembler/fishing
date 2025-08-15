@@ -1,64 +1,49 @@
 "use client"
 
 import styles from "./auth.module.sass"
-import { useState } from "react"
+import { useActionState } from "react"
 import { useRouter } from "next/navigation"
 import { login } from "@/api/login"
 
 export default function Auth() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const { push } = useRouter()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    
+  const [state, action, isPending] = useActionState(auth)
+
+  async function auth (prevState, newState) {
+    const username = newState.get('username')
+    const password = newState.get('password')
+
     if (!username || !password) {
-      return
+        return
     }
 
-    try {
-      const response = await login(username, password)
-      
-      const data = await response.json()
+    const { token } = await login(username, password)
 
-      if (response.ok) {
-        document.cookie = `username=${username}; path=/; max-age=604800`
-        
-        push('/main')
-      }
+    document.cookie = `token=${token}; max-age=604800`
 
-      console.log(data, response)
-    } catch (error) {
-      console.error("Ошибка при авторизации:", error)
-    }
+    push('/main')
   }
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Авторизация</h1>
+    <form className={styles.page} action={action}>
+      <h2>Пора на рыбалку</h2>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <input 
-            type="text" 
-            placeholder="Имя пользователя" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-          />
+      <div className={styles.form}>
+        <input
+          type="text" 
+          name="username"
+          placeholder="Имя пользователя"
+        />
 
-          <input 
-            type="password" 
-            placeholder="Пароль" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
+        <input
+          type="password" 
+          name="password"
+          placeholder="Пароль"
+        />
 
-          <button type="submit">Войти</button>
-        </form>
-      </main>
-    </div>
+        <button type="submit" disabled={isPending}>Войти</button>
+      </div>
+    </form>
   )
 }

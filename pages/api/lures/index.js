@@ -1,15 +1,15 @@
 import { getDbAndUser } from "@/helpers/db"
 
 /**
- * Обработчик запроса api/users. Получение всех пользователей
+ * Обработчик запроса getLures. Получение всех приманок
  * */
 export default async function handler(req, res) {
   try {
     const { db } = await getDbAndUser(req)
 
-    const users = await db.collection('users').find({}).toArray()
+    const lures = await db.collection('lures').find({}).toArray()
 
-    res.status(200).json(users)
+    res.status(200).json(lures)
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' })
   }

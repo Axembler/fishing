@@ -2,8 +2,13 @@ import { getRandomObject } from "./getRandomObject";
 
 export function getRandomFish(lure, fishArray, luresArray) {
     // Находим лур, соответствующий выбранной приманке
+
+    console.log(123, fishArray, luresArray);
+    
+    
     const selectedLure = luresArray?.find(l => l.name === lure)
     
+    console.log(selectedLure);
     if (!selectedLure) {
         console.error("Приманка не найдена")
 

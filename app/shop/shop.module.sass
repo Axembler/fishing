@@ -1,0 +1,31 @@
+.main
+	display: grid
+	grid-template-columns: repeat(4, 1fr)
+	align-items: center
+	justify-content: center
+	justify-items: center
+	height: 80vh
+	width: 100vw
+	gap: 1rem
+	overflow-y: auto
+	.card
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-direction: column
+		width: 16rem
+		height: 25rem
+		gap: 16rem
+		background-color: #c9c9c9
+		border-radius: 1rem
+		cursor: pointer
+		&:hover
+			background-color: #d4d4d4
+		
+		.price
+			font-size: 1.75rem
+		
+		.name
+			font-size: 1.75rem
+			&::first-letter
+				text-transform: uppercase

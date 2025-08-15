@@ -1,4 +1,7 @@
 import clientPromise from "@/api"
+import jwt from "jsonwebtoken"
+
+const SECRET_KEY = "your_secret_key"
 
 export default async function handler(req, res) {
   const { username, password } = req.body
@@ -19,8 +22,11 @@ export default async function handler(req, res) {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Неверное имя пользователя или пароль' })
     }
+    
+    // Генерация JWT токена
+    const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '256h' })
 
-    return res.status(200).json({ message: 'Успешно авторизован', user })
+    return res.status(200).json({ message: 'Успешно авторизован', token })
   } catch (error) {
     console.error('Error occurred:', error)
     
